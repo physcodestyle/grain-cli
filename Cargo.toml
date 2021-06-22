@@ -1,0 +1,5 @@
+[package]
+name = "grain"
+version = "0.1.0"
+authors = ["Igor Korovchenko <igsekor@gmail.com>"]
+edition = "2018"
