@@ -1,0 +1,21 @@
+name: Grain CLI
+version: "0.0.1"
+about: A console manager of the Grain modelling system with compatibility of all features
+args:
+subcommands:
+  - run:
+      about: run solver step by step or due to config file
+      args:
+        - config:
+            short: c
+            long: config
+            value_name: SOL_CONFIG
+            help: setup via a custom config file for calculation
+  - test:
+      about: testing of config file for calculation
+      value_name: SOL_CONFIG_TEST
+      args:
+        - debug:
+            short: d
+            long: debug
+            help: print full debug information
