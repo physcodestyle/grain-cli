@@ -1,5 +1,7 @@
 extern crate clap;
-use clap::{App, load_yaml};
+use clap::{load_yaml, App};
+
+use solver;
 
 fn main() {
     let yaml = load_yaml!("cli.yml");
