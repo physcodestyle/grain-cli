@@ -31,15 +31,6 @@ mod tests {
         let a_sub = Vec2d::new(2f64, -1f64);
         let a_mul = Vec2d::new(6f64, 2f64);
 
-        let mut b_ = Vec3d::new(1f64, 2f64, 1f64);
-        let mut b0 = Vec3d::new(1f64, 2f64, 1f64);
-        let b1 = Vec3d::new(1f64, 2f64, 1f64);
-        let b2 = Vec3d::new(2f64, 1f64, 3f64);
-        let b_add = Vec3d::new(3f64, 3f64, 4f64);
-        let b_sub = Vec3d::new(-1f64, 1f64, -2f64);
-        let b_mul = Vec3d::new(2f64, 4f64, 2f64);
-        let b_vep = Vec3d::new(7f64, 5f64, 5f64);
-
         // pub fn add(&self, other: &Vec2d) -> Vec2d
         let a3 = a1.add(&a2);
         assert_eq!(a3.equal(&a_add, acc), true);
@@ -49,7 +40,6 @@ mod tests {
         assert_eq!(a0.equal(&a_add, acc), true);
 
         // pub fn equal(&self, other: &Vec2d, accuracy: f64) -> bool
-        assert_eq!(a1.equal(&a0, acc), true);
         assert_eq!(a1.equal(&a2, acc), false);
 
         // pub fn length(&self) -> f64
@@ -75,12 +65,21 @@ mod tests {
 
         // pub fn sub_eq(&mut self, other: &Vec2d)
         a0.sub_eq(&a2);
-        assert_eq!(a_sub.equal(&a0, acc), true);
+        assert_eq!(a1.equal(&a0, acc), true);
 
         // pub fn to_polar(&self) -> Vec2dPolar
         let ap = a1.to_polar();
         assert_eq!(ap.alpha - 0.3217505543966422f64 < acc, true);
         assert_eq!(ap.r - 3.1622776601683795f64 < acc, true);
+
+        let mut b_ = Vec3d::new(1f64, 2f64, 1f64);
+        let mut b0 = Vec3d::new(1f64, 2f64, 1f64);
+        let b1 = Vec3d::new(1f64, 2f64, 1f64);
+        let b2 = Vec3d::new(2f64, 1f64, 3f64);
+        let b_add = Vec3d::new(3f64, 3f64, 4f64);
+        let b_sub = Vec3d::new(-1f64, 1f64, -2f64);
+        let b_mul = Vec3d::new(2f64, 4f64, 2f64);
+        let b_vep = Vec3d::new(7f64, 5f64, 5f64);
         
         // pub fn add(&self, other: &Vec3d) -> Vec3d
         let b3 = b1.add(&b2);
@@ -91,7 +90,6 @@ mod tests {
         assert_eq!(b_add.equal(&b0, acc), true);
 
         // pub fn equal(&self, other: &Vec3d, accuracy: f64) -> bool
-        assert_eq!(b1.equal(&b0, acc), true);
         assert_eq!(b1.equal(&b2, acc), false);
 
         // pub fn length(&self) -> f64
@@ -117,7 +115,7 @@ mod tests {
 
         // pub fn sub_eq(&mut self, other: &Vec3d)
         b0.sub_eq(&b2);
-        assert_eq!(b_sub.equal(&b0, acc), true);
+        assert_eq!(b1.equal(&b0, acc), true);
 
         // pub fn to_polar(&self) -> Vec3dPolar
         let bp = b1.to_polar();
@@ -161,6 +159,31 @@ mod tests {
         use crate::entity::grain::{Grain, Calc};
         use crate::math::vector::{Vec2d, Vec3d};
 
-        assert_eq!(3 + 3, 6);
+        let el_origins = vec![
+            (Vec2d::new(1f64, 2f64), Vec2d::new(-3f64, -4f64)),
+            (Vec2d::new(-1f64, -2f64), Vec2d::new(3f64, 4f64)),
+        ];
+
+        let electrons: Grain<Vec2d> = Grain::<Vec2d>::new(
+            String::from("electron"),
+            el_origins,
+            Some(vec![
+                vec![1.60217662e-19f64],
+                vec![1.60217662e-19f64],
+            ]),
+            vec![9.10938356e-31f64],
+        );
+
+        impl Calc<Vec2d> for Grain<Vec2d> {
+            fn distribute(&self, coords: Vec2d) -> Vec<f64> {
+                vec![0.0f64]
+            }
+            
+            fn migrate(&self, delta: &f64) {
+
+            }
+        }
+
+        assert_eq!(format!("{}", electrons), "electron\n1\t2\t|\t-3\t-4-1\t-2\t|\t3\t4");
     }
 }
