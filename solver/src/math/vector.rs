@@ -39,8 +39,8 @@ impl Vec2d {
     }
 
     pub fn equal(&self, other: &Vec2d, accuracy: f64) -> bool {
-        self.x - other.x < accuracy
-        && self.y - other.y < accuracy
+        (self.x - other.x).abs() < accuracy
+        && (self.y - other.y).abs() < accuracy
     }
 
     pub fn length(&self) -> f64 {
@@ -136,9 +136,9 @@ impl Vec3d {
     }
 
     pub fn equal(&self, other: &Vec3d, accuracy: f64) -> bool {
-        self.x - other.x < accuracy
-        && self.y - other.y < accuracy
-        && self.z - other.z < accuracy
+        (self.x - other.x).abs() < accuracy
+        && (self.y - other.y).abs() < accuracy
+        && (self.z - other.z).abs() < accuracy
     }
 
     pub fn length(&self) -> f64 {
