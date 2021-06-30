@@ -1,3 +1,5 @@
+use std::fmt;
+
 #[derive(Clone, Copy)]
 pub struct Vec2d {
     pub x: f64,
@@ -8,6 +10,12 @@ pub struct Vec2d {
 pub struct Vec2dPolar {
     pub alpha: f64,  // Radians
     pub r: f64,
+}
+
+impl fmt::Display for Vec2d {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}\t{}", self.x, self.y)
+    }
 }
 
 impl Vec2d {
@@ -69,10 +77,6 @@ impl Vec2d {
         self.y -= other.y;
     }
     
-    pub fn to_string(&self) -> String {
-        format!("{}\t{}", self.x, self.y)
-    }
-    
     pub fn to_polar(&self) -> Vec2dPolar {
         Vec2dPolar {
             alpha: (self.y / self.x).atan(),  // Radians
@@ -100,6 +104,12 @@ pub struct Vec3dSpherical {
     pub alpha: f64,  // Radians
     pub beta: f64,  // Radians
     pub r: f64,
+}
+
+impl fmt::Display for Vec3d {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}\t{}\t{}", self.x, self.y, self.z)
+    }
 }
 
 impl Vec3d {
@@ -168,10 +178,6 @@ impl Vec3d {
         self.x -= other.x;
         self.y -= other.y;
         self.z -= other.z;
-    }
-    
-    pub fn to_string(&self) -> String {
-        format!("{}\t{}\t{}", self.x, self.y, self.z)
     }
     
     pub fn to_polar(&self) -> Vec3dPolar {
