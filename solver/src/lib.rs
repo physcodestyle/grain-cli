@@ -3,12 +3,13 @@ pub mod grain;
 
 #[cfg(test)]
 mod tests {
-    use crate::*;
 
     #[test]
     fn test_vector_output() {
-        let a1 = math::vector::Vec2d::new(5.7456f64, 1f64);
-        let b1 = math::vector::Vec3d::new(1f64, 2f64, -0.5f64);
+        use crate::math::vector::{Vec2d, Vec3d};
+
+        let a1 = Vec2d::new(5.7456f64, 1f64);
+        let b1 = Vec3d::new(1f64, 2f64, -0.5f64);
 
         // pub fn to_string(&self) -> String
         assert_eq!(a1.to_string(), String::from("5.7456\t1"));
@@ -17,25 +18,27 @@ mod tests {
 
     #[test]
     fn test_vector_algebra() {
+        use crate::math::vector::{Vec2d, Vec3d};
+
         let acc = 0.000001f64;
         let s = 2.0f64;
 
-        let mut a_ = math::vector::Vec2d::new(3f64, 1f64);
-        let mut a0 = math::vector::Vec2d::new(3f64, 1f64);
-        let a1 = math::vector::Vec2d::new(3f64, 1f64);
-        let a2 = math::vector::Vec2d::new(1f64, 2f64);
-        let a_add = math::vector::Vec2d::new(4f64, 3f64);
-        let a_sub = math::vector::Vec2d::new(2f64, -1f64);
-        let a_mul = math::vector::Vec2d::new(6f64, 2f64);
+        let mut a_ = Vec2d::new(3f64, 1f64);
+        let mut a0 = Vec2d::new(3f64, 1f64);
+        let a1 = Vec2d::new(3f64, 1f64);
+        let a2 = Vec2d::new(1f64, 2f64);
+        let a_add = Vec2d::new(4f64, 3f64);
+        let a_sub = Vec2d::new(2f64, -1f64);
+        let a_mul = Vec2d::new(6f64, 2f64);
 
-        let mut b_ = math::vector::Vec3d::new(1f64, 2f64, 1f64);
-        let mut b0 = math::vector::Vec3d::new(1f64, 2f64, 1f64);
-        let b1 = math::vector::Vec3d::new(1f64, 2f64, 1f64);
-        let b2 = math::vector::Vec3d::new(2f64, 1f64, 3f64);
-        let b_add = math::vector::Vec3d::new(3f64, 3f64, 4f64);
-        let b_sub = math::vector::Vec3d::new(-1f64, 1f64, -2f64);
-        let b_mul = math::vector::Vec3d::new(2f64, 4f64, 2f64);
-        let b_vep = math::vector::Vec3d::new(7f64, 5f64, 5f64);
+        let mut b_ = Vec3d::new(1f64, 2f64, 1f64);
+        let mut b0 = Vec3d::new(1f64, 2f64, 1f64);
+        let b1 = Vec3d::new(1f64, 2f64, 1f64);
+        let b2 = Vec3d::new(2f64, 1f64, 3f64);
+        let b_add = Vec3d::new(3f64, 3f64, 4f64);
+        let b_sub = Vec3d::new(-1f64, 1f64, -2f64);
+        let b_mul = Vec3d::new(2f64, 4f64, 2f64);
+        let b_vep = Vec3d::new(7f64, 5f64, 5f64);
 
         // pub fn add(&self, other: &Vec2d) -> Vec2d
         let a3 = a1.add(&a2);
