@@ -1,5 +1,5 @@
 pub mod math;
-pub mod grain;
+pub mod entity;
 
 #[cfg(test)]
 mod tests {
@@ -134,5 +134,33 @@ mod tests {
         // pub fn vep(&self, other: &Vec3d) -> Vec3d
         let b3 = b1.vep(&b2);
         assert_eq!(b3.equal(&b_vep, acc), true);
+    }
+
+    #[test]
+    fn test_grain_struct() {
+        use crate::entity::grain::Grain;
+        use crate::math::vector::{Vec2d, Vec3d};
+
+        let el_origins = vec![
+            (Vec2d::new(1f64, 2f64), Vec2d::new(-3f64, -4f64)),
+            (Vec2d::new(-1f64, -2f64), Vec2d::new(3f64, 4f64))
+        ];
+
+        let electrons: Grain<Vec2d> = Grain::<Vec2d>::new(
+            String::from("electron"),
+            el_origins,
+            None,
+            vec![9.10938356e-31f64],
+        );
+
+        assert_eq!(format!("{}", electrons), "electron\n1\t2\t|\t-3\t-4-1\t-2\t|\t3\t4");
+    }
+
+    #[test]
+    fn test_grain_calc() {
+        use crate::entity::grain::{Grain, Calc};
+        use crate::math::vector::{Vec2d, Vec3d};
+
+        assert_eq!(3 + 3, 6);
     }
 }
