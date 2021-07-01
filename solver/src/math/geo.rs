@@ -1,5 +1,5 @@
-use std::fmt;
 use super::vector::{Vec2d, Vec3d};
+use std::fmt;
 
 #[derive(Clone, Copy)]
 pub struct Point<T> {
@@ -8,9 +8,7 @@ pub struct Point<T> {
 
 impl<T> Point<T> {
     pub fn new(origin: T) -> Self {
-        Self {
-            origin: origin,
-        }
+        Self { origin: origin }
     }
 }
 
@@ -43,15 +41,19 @@ where
     T: fmt::Display,
 {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{}\t{}\t{}", self.points.0.to_string(), self.points.1.to_string(), self.points.2.to_string())
+        write!(
+            f,
+            "{}\t{}\t{}",
+            self.points.0.to_string(),
+            self.points.1.to_string(),
+            self.points.2.to_string()
+        )
     }
 }
 
 impl<T> Triangle<T> {
     pub fn new(points: (Point<T>, Point<T>, Point<T>)) -> Self {
-        Self {
-            points: points,
-        }
+        Self { points: points }
     }
 }
 
@@ -86,12 +88,12 @@ impl Space for Triangle<Vec3d> {
         let a = Vec3d::new(
             self.points.1.origin.x - self.points.0.origin.x,
             self.points.1.origin.y - self.points.0.origin.y,
-            self.points.1.origin.z - self.points.0.origin.z
+            self.points.1.origin.z - self.points.0.origin.z,
         );
         let b = Vec3d::new(
             self.points.2.origin.x - self.points.0.origin.x,
             self.points.2.origin.y - self.points.0.origin.y,
-            self.points.2.origin.z - self.points.0.origin.z
+            self.points.2.origin.z - self.points.0.origin.z,
         );
         let n = a.vep(&b);
         n.mul(&(1.0 / n.length()))

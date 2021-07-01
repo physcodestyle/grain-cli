@@ -8,7 +8,7 @@ pub struct Vec2d {
 
 #[derive(Clone, Copy)]
 pub struct Vec2dPolar {
-    pub alpha: f64,  // Radians
+    pub alpha: f64, // Radians
     pub r: f64,
 }
 
@@ -20,10 +20,7 @@ impl fmt::Display for Vec2d {
 
 impl Vec2d {
     pub fn new(x: f64, y: f64) -> Vec2d {
-        Vec2d {
-            x: x,
-            y: y,
-        }
+        Vec2d { x: x, y: y }
     }
 
     pub fn add(&self, other: &Vec2d) -> Vec2d {
@@ -39,8 +36,7 @@ impl Vec2d {
     }
 
     pub fn equal(&self, other: &Vec2d, accuracy: f64) -> bool {
-        (self.x - other.x).abs() < accuracy
-        && (self.y - other.y).abs() < accuracy
+        (self.x - other.x).abs() < accuracy && (self.y - other.y).abs() < accuracy
     }
 
     pub fn length(&self) -> f64 {
@@ -61,8 +57,7 @@ impl Vec2d {
 
     // Scalar Product
     pub fn scp(&self, other: &Vec2d) -> f64 {
-        self.x * other.x
-        + self.y * other.y
+        self.x * other.x + self.y * other.y
     }
 
     pub fn sub(&self, other: &Vec2d) -> Vec2d {
@@ -76,10 +71,10 @@ impl Vec2d {
         self.x -= other.x;
         self.y -= other.y;
     }
-    
+
     pub fn to_polar(&self) -> Vec2dPolar {
         Vec2dPolar {
-            alpha: (self.y / self.x).atan(),  // Radians
+            alpha: (self.y / self.x).atan(), // Radians
             r: (self.x.powf(2.0) + self.y.powf(2.0)).sqrt(),
         }
     }
@@ -94,14 +89,14 @@ pub struct Vec3d {
 
 #[derive(Clone, Copy)]
 pub struct Vec3dPolar {
-    pub alpha: f64,  // Radians
+    pub alpha: f64, // Radians
     pub r: f64,
     pub z: f64,
 }
 
 #[derive(Clone, Copy)]
 pub struct Vec3dSpherical {
-    pub alpha: f64,  // Radians
+    pub alpha: f64, // Radians
     pub beta: f64,  // Radians
     pub r: f64,
 }
@@ -114,11 +109,7 @@ impl fmt::Display for Vec3d {
 
 impl Vec3d {
     pub fn new(x: f64, y: f64, z: f64) -> Vec3d {
-        Vec3d {
-            x: x,
-            y: y,
-            z: z,
-        }
+        Vec3d { x: x, y: y, z: z }
     }
 
     pub fn add(&self, other: &Vec3d) -> Vec3d {
@@ -137,8 +128,8 @@ impl Vec3d {
 
     pub fn equal(&self, other: &Vec3d, accuracy: f64) -> bool {
         (self.x - other.x).abs() < accuracy
-        && (self.y - other.y).abs() < accuracy
-        && (self.z - other.z).abs() < accuracy
+            && (self.y - other.y).abs() < accuracy
+            && (self.z - other.z).abs() < accuracy
     }
 
     pub fn length(&self) -> f64 {
@@ -161,9 +152,7 @@ impl Vec3d {
 
     // Scalar Product
     pub fn scp(&self, other: &Vec3d) -> f64 {
-        self.x * other.x
-        + self.y * other.y
-        + self.z * other.z
+        self.x * other.x + self.y * other.y + self.z * other.z
     }
 
     pub fn sub(&self, other: &Vec3d) -> Vec3d {
@@ -179,15 +168,15 @@ impl Vec3d {
         self.y -= other.y;
         self.z -= other.z;
     }
-    
+
     pub fn to_polar(&self) -> Vec3dPolar {
         Vec3dPolar {
-            alpha: (self.y / self.x).atan(),  // Radians
+            alpha: (self.y / self.x).atan(), // Radians
             r: (self.x.powf(2.0) + self.y.powf(2.0) + self.z.powf(2.0)).sqrt(),
             z: self.z,
         }
     }
-    
+
     pub fn to_spherical(&self) -> Vec3dSpherical {
         Vec3dSpherical {
             alpha: (self.y / self.x).atan(),

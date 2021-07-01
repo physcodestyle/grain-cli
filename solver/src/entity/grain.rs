@@ -22,12 +22,7 @@ where
 }
 
 impl<T> Grain<T> {
-    pub fn new(
-        name: String,
-        origins: Vec<(T, T)>,
-        params: Vec<Vec<f64>>,
-        units: Vec<f64>) -> Self
-    {
+    pub fn new(name: String, origins: Vec<(T, T)>, params: Vec<Vec<f64>>, units: Vec<f64>) -> Self {
         Self {
             name: name,
             origins: origins,
