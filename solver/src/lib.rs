@@ -147,43 +147,62 @@ mod tests {
         let electrons: Grain<Vec2d> = Grain::<Vec2d>::new(
             String::from("electron"),
             el_origins,
-            None,
+            Vec::new(),
             vec![9.10938356e-31f64],
         );
 
-        assert_eq!(format!("{}", electrons), "electron\n1\t2\t|\t-3\t-4-1\t-2\t|\t3\t4");
+        assert_eq!(format!("{}", electrons), "electron\n1\t2\t|\t-3\t-4\n-1\t-2\t|\t3\t4");
+        assert_eq!(format!("{:?}", electrons.get_units()), "[0.000000000000000000000000000000910938356]");
+
+        let el_origins_3d = vec![
+            (Vec3d::new(1f64, 2f64, 0f64), Vec3d::new(-3f64, -4f64, 0f64)),
+            (Vec3d::new(-1f64, -2f64, 0f64), Vec3d::new(3f64, 4f64, 0f64))
+        ];
+
+        let electrons_3d: Grain<Vec3d> = Grain::<Vec3d>::new(
+            String::from("electron"),
+            el_origins_3d,
+            Vec::new(),
+            vec![9.10938356e-31f64],
+        );
+
+        assert_eq!(format!("{}", electrons_3d), "electron\n1\t2\t0\t|\t-3\t-4\t0\n-1\t-2\t0\t|\t3\t4\t0");
     }
 
     #[test]
     fn test_grain_calc() {
         use crate::entity::grain::{Grain, Calc};
-        use crate::math::vector::{Vec2d, Vec3d};
+        use crate::math::vector::{Vec2d};
 
-        let el_origins = vec![
-            (Vec2d::new(1f64, 2f64), Vec2d::new(-3f64, -4f64)),
-            (Vec2d::new(-1f64, -2f64), Vec2d::new(3f64, 4f64)),
-        ];
-
-        let electrons: Grain<Vec2d> = Grain::<Vec2d>::new(
+        let mut electrons: Grain<Vec2d> = Grain::<Vec2d>::new(
             String::from("electron"),
-            el_origins,
-            Some(vec![
+            vec![
+                (Vec2d::new(1f64, 2f64), Vec2d::new(-3f64, -4f64)),
+                (Vec2d::new(-1f64, -2f64), Vec2d::new(3f64, 4f64)),
+            ],
+            vec![
                 vec![1.60217662e-19f64],
                 vec![1.60217662e-19f64],
-            ]),
+            ],
             vec![9.10938356e-31f64],
         );
 
         impl Calc<Vec2d> for Grain<Vec2d> {
             fn distribute(&self, coords: Vec2d) -> Vec<f64> {
-                vec![0.0f64]
+                vec![coords.x]
             }
             
-            fn migrate(&self, delta: &f64) {
-
+            fn migrate(&mut self, delta: &f64) {
+                self.change_origin(0, Vec2d::new(0f64, *delta), Vec2d::new(*delta, 0f64));
+                self.change_origin(1, Vec2d::new(0f64, *delta), Vec2d::new(*delta, 0f64));
             }
         }
 
-        assert_eq!(format!("{}", electrons), "electron\n1\t2\t|\t-3\t-4-1\t-2\t|\t3\t4");
+        assert_eq!(format!("{}", electrons), "electron\n1\t2\t|\t-3\t-4\n-1\t-2\t|\t3\t4");
+        electrons.distribute(Vec2d::new(0f64, 0f64));
+        assert_eq!(format!("{}", electrons), "electron\n1\t2\t|\t-3\t-4\n-1\t-2\t|\t3\t4");
+        let dt = 0f64;
+        electrons.migrate(&dt);
+        assert_eq!(format!("{}", electrons), "electron\n0\t0\t|\t0\t0\n0\t0\t|\t0\t0");
     }
 }
