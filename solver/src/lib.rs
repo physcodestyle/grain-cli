@@ -135,7 +135,7 @@ mod tests {
     }
 
     #[test]
-    fn test_grain_struct() {
+    fn test_grain_output() {
         use crate::entity::grain::Grain;
         use crate::math::vector::{Vec2d, Vec3d};
 
@@ -204,5 +204,60 @@ mod tests {
         let dt = 0f64;
         electrons.migrate(&dt);
         assert_eq!(format!("{}", electrons), "electron\n0\t0\t|\t0\t0\n0\t0\t|\t0\t0");
+    }
+
+    #[test]
+    fn test_geo_output() {
+        use crate::math::vector::{Vec2d, Vec3d};
+        use crate::math::geo::{Point, Triangle};
+
+        let t2d = Triangle::<Vec2d>::new((
+            Point::<Vec2d>::new(Vec2d::new(0.0f64, 0.0f64)),
+            Point::<Vec2d>::new(Vec2d::new(1.0f64, 0.0f64)),
+            Point::<Vec2d>::new(Vec2d::new(0.0f64, 1.0f64)),
+        ));
+        let t3d = Triangle::<Vec3d>::new((
+            Point::<Vec3d>::new(Vec3d::new(0.0f64, 0.0f64, 0.5f64)),
+            Point::<Vec3d>::new(Vec3d::new(1.0f64, 0.0f64, 5.0f64)),
+            Point::<Vec3d>::new(Vec3d::new(0.0f64, 1.0f64, 0.5f64)),
+        ));
+
+        assert_eq!(format!("{}", t2d), "0\t0\t1\t0\t0\t1");
+        assert_eq!(format!("{}", t3d), "0\t0\t0.5\t1\t0\t5\t0\t1\t0.5");
+    }
+
+    #[test]
+    fn test_geo_plain() {
+        use crate::math::vector::{Vec2d};
+        use crate::math::geo::{Plain, Point, Triangle};
+
+        let t2d = Triangle::<Vec2d>::new((
+            Point::<Vec2d>::new(Vec2d::new(0.0f64, 0.0f64)),
+            Point::<Vec2d>::new(Vec2d::new(1.0f64, 0.0f64)),
+            Point::<Vec2d>::new(Vec2d::new(0.0f64, 1.0f64)),
+        ));
+        let acc = 0.00001f64;
+
+        assert_eq!(t2d.is_inside(&Point::<Vec2d>::new(Vec2d::new(0.0f64, 0.0f64)), &acc), true);
+        assert_eq!(t2d.is_inside(&Point::<Vec2d>::new(Vec2d::new(-1.0f64, 0.5f64)), &acc), false);
+        assert_eq!(t2d.square(), 0.49999999999999983f64);
+    }
+
+    #[test]
+    fn test_geo_ops() {
+        use crate::math::vector::{Vec3d};
+        use crate::math::geo::{Point, Space, Triangle};
+
+        let t3d = Triangle::<Vec3d>::new((
+            Point::<Vec3d>::new(Vec3d::new(0.0f64, 0.0f64, 0.5f64)),
+            Point::<Vec3d>::new(Vec3d::new(1.0f64, 0.0f64, 5.0f64)),
+            Point::<Vec3d>::new(Vec3d::new(0.0f64, 1.0f64, 0.5f64)),
+        ));
+        let acc = 0.00001f64;
+
+        assert_eq!(t3d.is_inside(&Point::<Vec3d>::new(Vec3d::new(0.0f64, 0.0f64, 0.5f64)), &acc), true);
+        assert_eq!(t3d.is_inside(&Point::<Vec3d>::new(Vec3d::new(0.0f64, 0.0f64, 0.1f64)), &acc), false);
+        assert_eq!(t3d.square(), 2.304886114323224f64);
+        assert_eq!(format!("{}", t3d.normal()), "0.9761870601839527\t0\t0.21693045781865616");
     }
 }
